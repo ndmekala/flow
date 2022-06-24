@@ -9,9 +9,9 @@ class Arrowd extends React.Component {
       <Arrow
         x={200}
         y={20}
-        fill="salmon"
+        fill="cadetblue"
         points={[0,0,100,0,100,100]}
-        stroke="salmon"
+        stroke="cadetblue"
         draggable={true}
       />
     );
