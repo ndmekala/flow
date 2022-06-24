@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Stage, Line, Arrow, Layer, Rect, Circle, Text } from 'react-konva';
+import { Stage, Ellipse, Line, Arrow, Layer, Rect, Circle, Text } from 'react-konva';
 import Konva from 'konva';
 
 class Arrowd extends React.Component {
@@ -16,6 +16,25 @@ class Arrowd extends React.Component {
       />
     );
   }
+}
+
+class Elliptical extends React.Component {
+
+  render() {
+    return (
+      <Ellipse
+        radius={{
+          x: 50,
+          y: 20,
+        }}
+        x={100}
+        y={100}
+        fill="darkorange"
+        draggable={true}
+      />
+    );
+  }
+
 }
 
 
@@ -72,6 +91,7 @@ function App() {
         <Stage width={500} height={500}>
           <Layer>
             <Arrowd />
+            <Elliptical />
             <Linear />
             {circles.map((circle) => (
               <ColoredCircle
