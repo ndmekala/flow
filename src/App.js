@@ -1,7 +1,39 @@
 import React from 'react';
 import './App.css';
-import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+import { Stage, Line, Arrow, Layer, Rect, Circle, Text } from 'react-konva';
 import Konva from 'konva';
+
+class Arrowd extends React.Component {
+  render() {
+    return (
+      <Arrow
+        x={200}
+        y={20}
+        fill="salmon"
+        points={[0,0,100,0,100,100]}
+        stroke="salmon"
+        draggable={true}
+      />
+    );
+  }
+}
+
+
+
+class Linear extends React.Component {
+  render() {
+    return (
+      <Line
+        x={20}
+        y={200}
+        points={[0,0,0,100,100,100]}
+        stroke="magenta"
+        draggable={true}
+      />
+    );
+  }
+}
+
 
 class ColoredCircle extends React.Component {
   state = {
@@ -39,6 +71,8 @@ function App() {
         <p>Hi there ;)</p>
         <Stage width={500} height={500}>
           <Layer>
+            <Arrowd />
+            <Linear />
             {circles.map((circle) => (
               <ColoredCircle
                 xPos={circle[0]}
