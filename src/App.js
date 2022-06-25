@@ -50,14 +50,6 @@ class App extends React.Component {
 
   }
 
-  componentDidMount() {
-    console.log('ayy!')
-  }
-
-  componentDidUpdate() {
-    console.log('upd8')
-  }
-
   update(circ, xPos, yPos) {
     if (circ === 1) {
       this.setState({
@@ -98,7 +90,13 @@ class App extends React.Component {
     <div className="App">
       <header className="App-header">
         <p>Hi there 🙃</p>
-        <Stage width={500} height={500}>
+        <Stage width={500} height={200} style={{border: '2px solid magenta'}}>
+	  <Layer>
+	    <Circle x={20} y={20} radius={10} fill='magenta' draggable={true} onDragMove={(e) => {console.log(e.target.y())}}/>
+	  {/* do something like if y gets to a certain area, update state (specifically, add another circle to array) then map over array and make circlez */}
+	  </Layer>
+	</Stage>
+        <Stage width={500} height={500} style={{border: '2px solid magenta'}}>
           <Layer>
 	  <Circle radius={25} fill='pink' x={this.state.c4x} y={this.state.c4y} draggable={true} onDragMove={(e) => {this.update(4, e.target.x(), e.target.y())}} />
 	  </Layer>
