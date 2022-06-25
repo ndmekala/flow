@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Stage, Ellipse, Line, Arrow, Layer, Rect, Circle, Text } from 'react-konva';
+import { Stage, Ellipse, Group, Line, Arrow, Layer, Circle, Text } from 'react-konva';
 import Konva from 'konva';
 
 class Arrowd extends React.Component {
@@ -18,27 +18,6 @@ class Arrowd extends React.Component {
   }
 }
 
-class Elliptical extends React.Component {
-
-  render() {
-    return (
-      <Ellipse
-        radius={{
-          x: 50,
-          y: 20,
-        }}
-        x={100}
-        y={100}
-        fill="darkorange"
-        draggable={true}
-      />
-    );
-  }
-
-}
-
-
-
 class Linear extends React.Component {
   render() {
     return (
@@ -51,23 +30,6 @@ class Linear extends React.Component {
       />
     );
   }
-}
-
-class TextExample extends React.Component {
-
-  render() {
-    return (
-      <Text
-        x={150}
-        y={50}
-        text='simple text'
-        fontSize={20}
-        fill='darkseagreen'
-        fontFamily='Courier New'
-      />
-    );
-  }
-
 }
 
 class ColoredCircle extends React.Component {
@@ -129,29 +91,26 @@ class App extends React.Component {
         <p>Hi there ;)</p>
         <Stage width={500} height={500}>
           <Layer>
-            <Ellipse
-              radius={{
-                x: 50,
-                y: 20,
-               }}
-              x={this.state.theXPos}
-              y={this.state.theYPos}
-              fill="black"
-              draggable={true}
-              onDragMove={(e) => {
-                this.updatePos(e.target.x(), e.target.y())
-               }}
-            />
-            <Text
-              x={this.state.theXPos}
-              y={this.state.theYPos}
-              text='simple text'
-              fontSize={20}
-              fill='white'
-              fontFamily='Courier New'
-            />
+            <Group
+              draggable={true}>
+              <Ellipse
+                radius={{
+                  x: 10,
+		  y: 20,
+		}}
+		x={220}
+		y={220}
+		fill='darksalmon'
+	      />
+	      <Text
+		x={220}
+		y={220}
+		fill='black'
+		fontFamily='Courier New'
+		text='yo!'
+	      />
+            </Group>
             <Arrowd />
-            <Elliptical />
             <Linear />
             {circles.map((circle) => (
               <ColoredCircle
