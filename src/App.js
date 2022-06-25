@@ -53,6 +53,22 @@ class Linear extends React.Component {
   }
 }
 
+class TextExample extends React.Component {
+
+  render() {
+    return (
+      <Text
+        x={150}
+        y={50}
+        text='simple text'
+        fontSize={20}
+        fill='darkseagreen'
+        fontFamily='Courier New'
+      />
+    );
+  }
+
+}
 
 class ColoredCircle extends React.Component {
   state = {
@@ -81,15 +97,60 @@ class ColoredCircle extends React.Component {
   }
 }
 
+
+
 const circles = [[50,50], [150,150], [250,250]]
 
-function App() {
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      theXPos: 150,
+      theYPos: 150,
+    }
+
+    this.updatePos = this.updatePos.bind(this);
+
+  }
+
+  updatePos(xPos, yPos) {
+    this.setState({
+      theXPos: xPos,
+      theYPos: yPos,
+    })
+  }
+
+  render() {
+
   return (
     <div className="App">
       <header className="App-header">
         <p>Hi there ;)</p>
         <Stage width={500} height={500}>
           <Layer>
+            <Ellipse
+              radius={{
+                x: 50,
+                y: 20,
+               }}
+              x={this.state.theXPos}
+              y={this.state.theYPos}
+              fill="black"
+              draggable={true}
+              onDragMove={(e) => {
+                this.updatePos(e.target.x(), e.target.y())
+//                console.log(`x = ${e.target.x()}; y = ${e.target.y()}`)
+               }}
+            />
+            <Text
+              x={this.state.theXPos}
+              y={this.state.theYPos}
+              text='simple text'
+              fontSize={20}
+              fill='white'
+              fontFamily='Courier New'
+            />
             <Arrowd />
             <Elliptical />
             <Linear />
@@ -104,6 +165,9 @@ function App() {
      </header>
     </div>
   );
+
+
+  }
 }
 
 export default App;
