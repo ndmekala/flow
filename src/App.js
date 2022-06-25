@@ -1,36 +1,9 @@
 import React from 'react';
 import './App.css';
-import { Stage, Ellipse, Group, Line, Arrow, Layer, Circle, Text } from 'react-konva';
+import { Stage, Ellipse, Group, Arrow, Layer, Circle, Text, useStrictMode} from 'react-konva';
 import Konva from 'konva';
 
-class Arrowd extends React.Component {
-  render() {
-    return (
-      <Arrow
-        x={200}
-        y={20}
-        fill="cadetblue"
-        points={[0,0,100,0,100,100]}
-        stroke="cadetblue"
-        draggable={true}
-      />
-    );
-  }
-}
-
-class Linear extends React.Component {
-  render() {
-    return (
-      <Line
-        x={20}
-        y={200}
-        points={[0,0,0,100,100,100]}
-        stroke="magenta"
-        draggable={true}
-      />
-    );
-  }
-}
+useStrictMode(true)
 
 class ColoredCircle extends React.Component {
   state = {
@@ -51,37 +24,68 @@ class ColoredCircle extends React.Component {
         fill={this.state.color}
         onClick={this.handleClick}
         draggable={true}
-        onDragEnd={(e) => {
-          console.log(`x = ${e.target.x()}; y = ${e.target.y()}`)
-        }}
       />
     );
   }
 }
 
 
-
-const circles = [[50,50], [150,150], [250,250]]
-
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      theXPos: 150,
-      theYPos: 150,
+      c1x: 50,
+      c1y: 50,
+      c2x: 150,
+      c2y: 150,
+      c3x: 250,
+      c3y: 250,
     }
 
-    this.updatePos = this.updatePos.bind(this);
+//    this.updatePos = this.updatePos.bind(this);
+    this.update = this.update.bind(this);
 
   }
 
-  updatePos(xPos, yPos) {
-    this.setState({
-      theXPos: xPos,
-      theYPos: yPos,
-    })
+  componentDidMount() {
+    console.log('ayy!')
   }
+
+  componentDidUpdate() {
+    console.log('upd8')
+  }
+
+  update(circ, xPos, yPos) {
+    if (circ == 1) {
+      console.log('1!')
+      this.setState({
+        c1x: xPos,
+        c1y: yPos,
+      })
+    }
+    if (circ == 2) {
+      console.log('2!')
+      this.setState({
+        c2x: xPos,
+        c2y: yPos,
+      })
+    }
+    if (circ == 3) {
+      console.log('3!')
+      this.setState({
+        c3x: xPos,
+        c3y: yPos,
+      })
+    }
+  }
+
+//  updatePos(xPos, yPos) {
+//    this.setState({
+//      theXPos: xPos,
+//      theYPos: yPos,
+//    })
+//  }
 
   render() {
 
@@ -95,29 +99,28 @@ class App extends React.Component {
               draggable={true}>
               <Ellipse
                 radius={{
-                  x: 10,
+                  x: 50,
 		  y: 20,
 		}}
 		x={220}
-		y={220}
+		y={20}
 		fill='darksalmon'
 	      />
 	      <Text
 		x={220}
-		y={220}
+		y={20}
 		fill='black'
 		fontFamily='Courier New'
 		text='yo!'
 	      />
             </Group>
-            <Arrowd />
-            <Linear />
-            {circles.map((circle) => (
-              <ColoredCircle
-                xPos={circle[0]}
-                yPos={circle[1]}
-              />
-            ))}
+	    <Circle width={50} height={50} fill='cadetblue' draggable x={this.state.c1x} y={this.state.c1y} onDragMove={(e) => {this.update(1, e.target.x(), e.target.y())}}/>
+	    <Circle width={50} height={50} fill='cadetblue' draggable x={this.state.c2x} y={this.state.c2y} onDragMove={(e) => {this.update(2, e.target.x(), e.target.y())}}/>
+	    <Circle width={50} height={50} fill='cadetblue' draggable x={this.state.c3x} y={this.state.c3y} onDragMove={(e) => {this.update(3, e.target.x(), e.target.y())}}/>
+	    <Arrow stroke='cadetblue' points={[this.state.c1x+25,this.state.c1y+25,this.state.c2x-25,this.state.c2y-25]} />
+	    <Arrow stroke='cadetblue' points={[this.state.c2x+25,this.state.c2y+25,this.state.c3x-25,this.state.c3y-25]} />
+
+
           </Layer>
         </Stage>
      </header>
