@@ -140,7 +140,6 @@ class App extends React.Component {
               draggable={true}
               onDragMove={(e) => {
                 this.updatePos(e.target.x(), e.target.y())
-//                console.log(`x = ${e.target.x()}; y = ${e.target.y()}`)
                }}
             />
             <Text
