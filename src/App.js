@@ -1,10 +1,75 @@
 import React from 'react';
 import './App.css';
-import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode} from 'react-konva';
+import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode, Transformer, Rect} from 'react-konva';
 import Konva from 'konva';
 
 useStrictMode(true)
 
+const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
+  const shapeRef = React.useRef();
+  const trRef = React.useRef();
+
+  React.useEffect(() => {
+    if (isSelected) {
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  return (
+    <React.fragment>
+      <Rect
+        onClick={onSelect}
+        onTap={onSelect}
+        ref={shapeRef}
+        {...shapeProps}
+        draggable
+        onDragEnd={(e) => {
+          onChange({
+	    ...shapeProps,
+	    x: e.target.x(),
+	    y: e.target.y(),
+	  })
+        }}
+        onTransformerEnd={(e) => {
+          const node = shapeRef.current;
+	  const scaleX = node.scaleX();
+	  const scaleY = node.scaleY();
+          node.scaleX(1);
+	  node.scaleY(1);
+	  onChange({
+            ...shapeProps,
+	    x: node.x(),
+	    y: node.y(),
+	    width: Math.max(5, node.width() * scaleX),
+	    height: Math.max(node.height() * scaleY),
+	  });
+	}}
+      />
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+	    if(newBox.width < 5 || newBox.height < 5) {
+	      return oldBox
+	    }
+	    return newBox;
+	  }}
+	/>
+      )}
+    </React.fragment>
+  )
+
+}
+
+const rectData = {
+  x: 10,
+  y: 10,
+  width: 100,
+  height: 100,
+  fill: 'deeppink',
+  id: 'rect'
+}
 
 class App extends React.Component {
   constructor() {
@@ -75,6 +140,7 @@ class App extends React.Component {
 	  <Circle radius={15} fill='deeppink' x={420} y={400} draggable={true} onDragEnd={(e) => {this.handleDrop(e)}}/>
 	  </Layer>
           <Layer>
+	    
             <Group
               draggable={true}>
               <Ellipse
