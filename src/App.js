@@ -58,8 +58,6 @@ class App extends React.Component {
       let stateCopy = this.state.cirkows
       stateCopy.push([event.target.x(), event.target.y()])
       this.setState({cirkows: stateCopy})
-      // basically... in state there shoudl be an array... of stuff that populates circles
-      // add another circle - w e.target.x() and e.target.y() as position points...
     }
   }
 
@@ -89,13 +87,6 @@ class App extends React.Component {
       })
     }
   }
-
-//  updatePos(xPos, yPos) {
-//    this.setState({
-//      theXPos: xPos,
-//      theYPos: yPos,
-//    })
-//  }
 
   render() {
 
