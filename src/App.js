@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Stage, Ellipse, Group, Arrow, Layer, Circle, Text, useStrictMode} from 'react-konva';
+import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode} from 'react-konva';
 import Konva from 'konva';
 
 useStrictMode(true)
@@ -43,11 +43,24 @@ class App extends React.Component {
       c3y: 250,
       c4x: 425,
       c4y: 425,
+      cirkows: [[10,400],[10,300]]
     }
 
 //    this.updatePos = this.updatePos.bind(this);
     this.update = this.update.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
 
+  }
+
+  handleDrop(event) {
+    if (event.target.x() < 400) {
+      console.log('this is here')
+      let stateCopy = this.state.cirkows
+      stateCopy.push([event.target.x(), event.target.y()])
+      this.setState({cirkows: stateCopy})
+      // basically... in state there shoudl be an array... of stuff that populates circles
+      // add another circle - w e.target.x() and e.target.y() as position points...
+    }
   }
 
   update(circ, xPos, yPos) {
@@ -90,15 +103,9 @@ class App extends React.Component {
     <div className="App">
       <header className="App-header">
         <p>Hi there 🙃</p>
-        <Stage width={500} height={200} style={{border: '2px solid magenta'}}>
-	  <Layer>
-	    <Circle x={20} y={20} radius={10} fill='magenta' draggable={true} onDragMove={(e) => {console.log(e.target.y())}}/>
-	  {/* do something like if y gets to a certain area, update state (specifically, add another circle to array) then map over array and make circlez */}
-	  </Layer>
-	</Stage>
-        <Stage width={500} height={500} style={{border: '2px solid magenta'}}>
+        <Stage width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
-	  <Circle radius={25} fill='pink' x={this.state.c4x} y={this.state.c4y} draggable={true} onDragMove={(e) => {this.update(4, e.target.x(), e.target.y())}} />
+	  <Circle radius={15} fill='deeppink' x={420} y={400} draggable={true} onDragEnd={(e) => {this.handleDrop(e)}}/>
 	  </Layer>
           <Layer>
             <Group
@@ -120,11 +127,13 @@ class App extends React.Component {
 		text='yo!'
 	      />
             </Group>
+	    {this.state.cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
 	    <Circle width={50} height={50} fill='cadetblue' draggable={true} x={this.state.c1x} y={this.state.c1y} onDragMove={(e) => {this.update(1, e.target.x(), e.target.y())}}/>
 	    <Circle width={50} height={50} fill='cadetblue' draggable={true} x={this.state.c2x} y={this.state.c2y} onDragMove={(e) => {this.update(2, e.target.x(), e.target.y())}}/>
 	    <Circle width={50} height={50} fill='cadetblue' draggable={true} x={this.state.c3x} y={this.state.c3y} onDragMove={(e) => {this.update(3, e.target.x(), e.target.y())}}/>
 	    <Arrow stroke='cadetblue' points={[this.state.c1x+25,this.state.c1y+25,this.state.c2x-25,this.state.c2y-25]} />
 	    <Arrow stroke='cadetblue' points={[this.state.c2x+25,this.state.c2y+25,this.state.c3x-25,this.state.c3y-25]} />
+	    <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
      </header>
