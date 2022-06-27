@@ -5,30 +5,6 @@ import Konva from 'konva';
 
 useStrictMode(true)
 
-class ColoredCircle extends React.Component {
-  state = {
-    color: "cadetblue"
-  };
-  handleClick = () => {
-    this.setState({
-      color: Konva.Util.getRandomColor()
-    });
-  };
-  render() {
-    return (
-      <Circle
-        x={this.props.xPos}
-        y={this.props.yPos}
-        width={50}
-        height={50}
-        fill={this.state.color}
-        onClick={this.handleClick}
-        draggable={true}
-      />
-    );
-  }
-}
-
 
 class App extends React.Component {
   constructor() {
