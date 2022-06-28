@@ -4,7 +4,7 @@ import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode,
 import Konva from 'konva';
 
 useStrictMode(true)
-
+// the TLDR is that my move to mix up hooks and class components is somewhere along the spectrum from tenuous to sketchy to unsuported. try to refactor with more consistent hook usage would be my best guess.
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
