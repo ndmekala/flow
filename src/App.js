@@ -62,14 +62,14 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
 
 }
 
-const rectData = {
+const rectData = [{
   x: 10,
   y: 10,
   width: 100,
   height: 100,
   fill: 'deeppink',
-  id: 'rect'
-}
+  id: 'rect1'
+}]
 
 class App extends React.Component {
   constructor() {
@@ -84,7 +84,9 @@ class App extends React.Component {
       c3y: 250,
       c4x: 425,
       c4y: 425,
-      cirkows: [[10,400],[10,300]]
+      cirkows: [[10,400],[10,300]],
+      rectangles: rectData,
+      selectedID: null,
     }
 
 //    this.updatePos = this.updatePos.bind(this);
@@ -140,7 +142,28 @@ class App extends React.Component {
 	  <Circle radius={15} fill='deeppink' x={420} y={400} draggable={true} onDragEnd={(e) => {this.handleDrop(e)}}/>
 	  </Layer>
           <Layer>
-	    
+            {/*this.state.rectangles.map((rect, i) => {
+	      return(
+              <Rectangle
+	        key={i}
+		shapeProps={rect}
+		isSelected={rect.id === this.state.selectedID}
+		onSelect={() => {
+		  this.setState({
+	            selectedID: rect.id,
+		  })
+		}}
+		onChange={(newAttrs) => {
+	          const rects = this.state.rectangles.slice();
+		  rects[i] = newAttrs
+		  this.setState({
+	            rectangles: rects,
+		  })
+		}}
+		/>)
+	    })*/} 
+		  <Rectangle height={50} width={50} fill='deeppink' />
+
             <Group
               draggable={true}>
               <Ellipse
