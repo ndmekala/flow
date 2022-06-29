@@ -103,6 +103,15 @@ const App = () => {
     return results
   }
 
+  const smartArrowPoints = (p1Array, p2Array, r) => {
+    let xMult
+    p2Array[0] > p1Array[0] ? xMult = 1 : xMult = -1
+    let m = (p2Array[1]-p1Array[1])/(p2Array[0]-p1Array[0])
+    let xAdj = xMult*Math.sqrt(r*r/(1+(m*m)))
+    let yAdj = m*xAdj
+    return [p1Array[0]+xAdj, p1Array[1]+yAdj, p2Array[0]-xAdj, p2Array[1]-yAdj]
+  }
+
     return (
     <div className="App">
       <header className="App-header">
@@ -157,7 +166,7 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragEnd={(e) => {setC1([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragEnd={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragEnd={(e) => {setC3([e.target.x(), e.target.y()])}}/>
-	    <Arrow stroke='cadetblue' points={[c1[0]+25,c1[1]+25,c2[0]-25,c2[1]-25]} />
+	    <Arrow stroke='cadetblue' points={smartArrowPoints(c1,c2,25)} />
 	    <Arrow stroke='cadetblue' points={[c2[0]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[0],c2[1]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[1],c3[0]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[2],c3[1]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[3]]} />
 	    {/*<Arrow stroke='cadetblue' points={[this.state.c1x+25,this.state.c1y+25,this.state.c2x-25,this.state.c2y-25]} />*/}
 	    {/*<Arrow stroke='cadetblue' points={[this.state.c2x+25,this.state.c2y+25,this.state.c3x-25,this.state.c3y-25]} />*/}
