@@ -90,19 +90,6 @@ const App = () => {
 
   }
 
-  const getAdjustments = (x1, y1, x2, y2, r) => {
-    let xMult
-    x2 > x1 ? xMult = 1 : xMult = -1
-    let slope = (y2-y1)/(x2-x1)
-    let xAdj1 = xMult*Math.sqrt(r*r/(1+(slope*slope)))
-    let yAdj1 = slope*xAdj1
-    let xAdj2 = -xAdj1
-    let yAdj2 = -yAdj1
-    let results = [xAdj1, yAdj1, xAdj2, yAdj2];
-    console.log(results)
-    return results
-  }
-
   const smartArrowPoints = (p1Array, p2Array, r) => {
     let xMult
     p2Array[0] > p1Array[0] ? xMult = 1 : xMult = -1
