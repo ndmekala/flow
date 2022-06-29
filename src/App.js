@@ -71,12 +71,16 @@ const rectData = [{
 }]
 
 const App = () => {
+
+  // the one thing that isnt in here is a deselect functionality… fyi  
+
   const [c1, setC1] = React.useState([50, 50])
   const [c2, setC2] = React.useState([150, 150])
   const [c3, setC3] = React.useState([250, 250])
-  const [cirkows, setCirkows] = React.useState([[10, 400], [10,300]])
+  const [cirkows, setCirkows] = React.useState([])
   const [rectangles, setRectangles] = React.useState(rectData)
   const [selectedID, setSelectedID] = React.useState(null)
+  const [shadow, setShadow] = React.useState(false)
 
   const handleDrop = (e) => {
 
@@ -144,8 +148,8 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
-	    <Arrow stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
-	    <Arrow stroke='cadetblue' points={smartArrowPoints(c2, c3, 25)} />
+		  <Arrow strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
+	    <Arrow strokeWidth={5} stroke='cadetblue' points={smartArrowPoints(c2, c3, 25)} />
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
