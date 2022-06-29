@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode, Transformer, Rect} from 'react-konva';
-import Konva from 'konva';
 
 useStrictMode(true)
 
@@ -75,7 +74,6 @@ const App = () => {
   const [c1, setC1] = React.useState([50, 50])
   const [c2, setC2] = React.useState([150, 150])
   const [c3, setC3] = React.useState([250, 250])
-  const [c4, setC4] = React.useState([425, 425])
   const [cirkows, setCirkows] = React.useState([[10, 400], [10,300]])
   const [rectangles, setRectangles] = React.useState(rectData)
   const [selectedID, setSeletedID] = React.useState(null)
