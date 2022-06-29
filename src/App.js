@@ -80,11 +80,11 @@ const App = () => {
   const [rectangles, setRectangles] = React.useState(rectData)
   const [selectedID, setSeletedID] = React.useState(null)
 
-  const handleDrop = (event) => {
+  const handleDrop = (e) => {
 
-    if (event.target.x() < 400) {
-      let stateCopy = cirkows
-      stateCopy.push([event.target.x(), event.target.y()])
+    if (e.target.x() < 400) {
+      let stateCopy = cirkows.slice()
+      stateCopy.push([e.target.x(), e.target.y()])
       setCirkows(stateCopy)
       }
 
@@ -118,7 +118,7 @@ const App = () => {
         <p>Hi there 🙃</p>
         <Stage width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
-		  {/*<Circle radius={15} fill='deeppink' x={420} y={400} draggable={true} onDragEnd={(e) => {this.handleDrop(e)}}/> */}
+	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
 	  </Layer>
           <Layer>
             {/*this.state.rectangles.map((rect, i) => {
@@ -168,8 +168,6 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragEnd={(e) => {setC3([e.target.x(), e.target.y()])}}/>
 	    <Arrow stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
 	    <Arrow stroke='cadetblue' points={smartArrowPoints(c2, c3, 25)} />
-	    {/*<Arrow stroke='cadetblue' points={[this.state.c1x+25,this.state.c1y+25,this.state.c2x-25,this.state.c2y-25]} />*/}
-	    {/*<Arrow stroke='cadetblue' points={[this.state.c2x+25,this.state.c2y+25,this.state.c3x-25,this.state.c3y-25]} />*/}
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
