@@ -104,7 +104,7 @@ const App = () => {
     return (
     <div className="App">
       <header className="App-header">
-        <p>Hi there 🙃</p>
+        <p>Hi there <span role="img" aria-label="upside-down smiley face">🙃</span></p>
         <Stage width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
 	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
@@ -134,7 +134,7 @@ const App = () => {
 		}}
 		x={220}
 		y={20}
-		fill='darksalmon'
+		fill='deeppink'
 	      />
 	      <Text
 		x={220}
