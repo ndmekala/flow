@@ -156,7 +156,7 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragEnd={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragEnd={(e) => {setC3([e.target.x(), e.target.y()])}}/>
 	    <Arrow stroke='cadetblue' points={[c1[0]+25,c1[1]+25,c2[0]-25,c2[1]-25]} />
-	    <Arrow stroke='cadetblue' points={[c2[0]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[0],c2[1]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[0],c3[0]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[2],c3[1]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[3]]} />
+	    <Arrow stroke='cadetblue' points={[c2[0]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[0],c2[1]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[1],c3[0]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[2],c3[1]+getAdjustments(c2[0],c2[1],c3[0],c3[1],25)[3]]} />
 	    {/*<Arrow stroke='cadetblue' points={[this.state.c1x+25,this.state.c1y+25,this.state.c2x-25,this.state.c2y-25]} />*/}
 	    {/*<Arrow stroke='cadetblue' points={[this.state.c2x+25,this.state.c2y+25,this.state.c3x-25,this.state.c3y-25]} />*/}
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
