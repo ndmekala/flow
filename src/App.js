@@ -16,7 +16,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
   }, [isSelected]);
 
   return (
-    <React.fragment>
+    <React.Fragment>
       <Rect
         onClick={onSelect}
         onTap={onSelect}
@@ -56,14 +56,14 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
 	  }}
 	/>
       )}
-    </React.fragment>
+    </React.Fragment>
   )
 
 }
 
 const rectData = [{
-  x: 10,
-  y: 10,
+  x: 250,
+  y: 300,
   width: 100,
   height: 100,
   fill: 'deeppink',
@@ -76,7 +76,7 @@ const App = () => {
   const [c3, setC3] = React.useState([250, 250])
   const [cirkows, setCirkows] = React.useState([[10, 400], [10,300]])
   const [rectangles, setRectangles] = React.useState(rectData)
-  const [selectedID, setSeletedID] = React.useState(null)
+  const [selectedID, setSelectedID] = React.useState(null)
 
   const handleDrop = (e) => {
 
@@ -106,27 +106,20 @@ const App = () => {
 	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
 	  </Layer>
           <Layer>
-            {/*this.state.rectangles.map((rect, i) => {
+		  {rectangles.map((rect, i) => {
 	      return(
               <Rectangle
 	        key={i}
 		shapeProps={rect}
-		isSelected={rect.id === this.state.selectedID}
-		onSelect={() => {
-		  this.setState({
-	            selectedID: rect.id,
-		  })
-		}}
+		isSelected={rect.id === selectedID}
+		onSelect={() => {setSelectedID(rect.id)}}
 		onChange={(newAttrs) => {
-	          const rects = this.state.rectangles.slice();
+	          const rects = rectangles.slice();
 		  rects[i] = newAttrs
-		  this.setState({
-	            rectangles: rects,
-		  })
+		 setRectangles(rects) 
 		}}
 		/>)
-	    })*/} 
-		  {/*<Rectangle height={50} width={50} fill='deeppink' />*/}
+	    }) }
 
             <Group
               draggable={true}>
@@ -148,9 +141,9 @@ const App = () => {
 	      />
             </Group>
 	    {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
-	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragEnd={(e) => {setC1([e.target.x(), e.target.y()])}}/>
-	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragEnd={(e) => {setC2([e.target.x(), e.target.y()])}}/>
-	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragEnd={(e) => {setC3([e.target.x(), e.target.y()])}}/>
+	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
+	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
+	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
 	    <Arrow stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
 	    <Arrow stroke='cadetblue' points={smartArrowPoints(c2, c3, 25)} />
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
