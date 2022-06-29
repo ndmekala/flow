@@ -91,8 +91,10 @@ const App = () => {
   }
 
   const getAdjustments = (x1, y1, x2, y2, r) => {
+    let xMult
+    x2 > x1 ? xMult = 1 : xMult = -1
     let slope = (y2-y1)/(x2-x1)
-    let xAdj1 = Math.sqrt(r*r/(1+(slope*slope)))
+    let xAdj1 = xMult*Math.sqrt(r*r/(1+(slope*slope)))
     let yAdj1 = slope*xAdj1
     let xAdj2 = -xAdj1
     let yAdj2 = -yAdj1
