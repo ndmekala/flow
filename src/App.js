@@ -99,6 +99,7 @@ const App = () => {
   }
 
   const smartArrowPoints = (p1Array, p2Array, r) => {
+    // make this even smarter by incorporating arrow points…
     let xMult
     p2Array[0] > p1Array[0] ? xMult = 1 : xMult = -1
     let m = (p2Array[1]-p1Array[1])/(p2Array[0]-p1Array[0])
@@ -163,7 +164,7 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
              <Arrow tension={0.5} strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
-             <Arrow strokeWidth={5} stroke='cadetblue' points={[170, 170, 200+5*parseFloat(value), 200-5*parseFloat(value), 230, 230]} tension={0.5} />
+             <Arrow strokeWidth={5} stroke='cadetblue' points={[170, 170, 200+29*parseFloat(value), 200-29*parseFloat(value), 230, 230]} tension={0.5} />
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
