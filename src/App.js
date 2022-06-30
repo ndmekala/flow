@@ -81,6 +81,7 @@ const App = () => {
   const [rectangles, setRectangles] = React.useState(rectData)
   const [selectedID, setSelectedID] = React.useState(null)
   const [shadow, setShadow] = React.useState(false)
+  const [value, setValue] = React.useState(0)
 
   const handleDrop = (e) => {
 
@@ -92,19 +93,27 @@ const App = () => {
 
   }
 
+  const handleSlider = (e) => {
+    setValue(e.target.value)
+  }
+
   const smartArrowPoints = (p1Array, p2Array, r) => {
     let xMult
     p2Array[0] > p1Array[0] ? xMult = 1 : xMult = -1
     let m = (p2Array[1]-p1Array[1])/(p2Array[0]-p1Array[0])
     let xAdj = xMult*Math.sqrt(r*r/(1+(m*m)))
     let yAdj = m*xAdj
-    return [p1Array[0]+xAdj, p1Array[1]+yAdj, p2Array[0]-xAdj, p2Array[1]-yAdj]
+//    return [p1Array[0]+xAdj, p1Array[1]+yAdj, (p1Array[0]+(p2Array[0]-p1Array[0])/2), (p1Array[1]+(p2Array[1]-p1Array[1])/2),  p2Array[0]-xAdj, p2Array[1]-yAdj]
+    return [p1Array[0]+xAdj, p1Array[1]+yAdj, 100, 70, (p1Array[1]+(p2Array[1]-p1Array[1])/2),  p2Array[0]-xAdj, p2Array[1]-yAdj]
+
+
   }
 
     return (
     <div className="App">
       <header className="App-header">
         <p>Hi there <span role="img" aria-label="upside-down smiley face">🙃</span></p>
+	      <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
         <Stage width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
 	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
@@ -148,8 +157,8 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
-		  <Arrow strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
-	    <Arrow strokeWidth={5} stroke='cadetblue' points={smartArrowPoints(c2, c3, 25)} />
+             <Arrow tension={0.5} strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
+             <Arrow strokeWidth={5} stroke='cadetblue' points={[175, 175, 225, 200+parseFloat(value), 225, 225]} tension={0.5} />
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
