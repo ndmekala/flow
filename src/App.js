@@ -73,8 +73,6 @@ const rectData = [{
 
 const App = () => {
 
-  // the one thing that isnt in here is a deselect functionality… fyi  
-
   const [c1, setC1] = React.useState([50, 50])
   const [c2, setC2] = React.useState([150, 150])
   const [c3, setC3] = React.useState([250, 250])
@@ -83,6 +81,13 @@ const App = () => {
   const [selectedID, setSelectedID] = React.useState(null)
   const [shadow, setShadow] = React.useState(false)
   const [value, setValue] = React.useState(0)
+
+  const checkDeselect = (e) => {
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      setSelectedID(null);
+    }
+  }
 
   const handleDrop = (e) => {
 
@@ -105,7 +110,6 @@ const App = () => {
     let m = (p2Array[1]-p1Array[1])/(p2Array[0]-p1Array[0])
     let xAdj = xMult*Math.sqrt(r*r/(1+(m*m)))
     let yAdj = m*xAdj
-//    return [p1Array[0]+xAdj, p1Array[1]+yAdj, (p1Array[0]+(p2Array[0]-p1Array[0])/2), (p1Array[1]+(p2Array[1]-p1Array[1])/2),  p2Array[0]-xAdj, p2Array[1]-yAdj]
     return [p1Array[0]+xAdj, p1Array[1]+yAdj, 100, 70, (p1Array[1]+(p2Array[1]-p1Array[1])/2),  p2Array[0]-xAdj, p2Array[1]-yAdj]
 
 
@@ -115,7 +119,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <p>Hi there <span role="img" aria-label="upside-down smiley face">🙃</span></p>
-        <Stage width={500} height={500} style={{border: '2px solid deeppink'}}>
+        <Stage onMouseDown={checkDeselect} onTouchStart={checkDeselect} width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
 	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
 	  </Layer>
