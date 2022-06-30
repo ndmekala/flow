@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode, Transformer, Rect} from 'react-konva';
+import { Html } from 'react-konva-utils';
 
 useStrictMode(true)
 
@@ -113,12 +114,16 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <p>Hi there <span role="img" aria-label="upside-down smiley face">🙃</span></p>
-	      <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
         <Stage width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
 	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
 	  </Layer>
           <Layer>
+		  <Html divProps={{style:{position: 'relative', top: 400, left: 400}}}>
+
+	      <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
+			 
+		</Html>
 		  {rectangles.map((rect, i) => {
 	      return(
               <Rectangle
@@ -158,7 +163,7 @@ const App = () => {
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
              <Arrow tension={0.5} strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
-             <Arrow strokeWidth={5} stroke='cadetblue' points={[175, 175, 225, 200+parseFloat(value), 225, 225]} tension={0.5} />
+             <Arrow strokeWidth={5} stroke='cadetblue' points={[170, 170, 200+5*parseFloat(value), 200-5*parseFloat(value), 230, 230]} tension={0.5} />
 	    <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
