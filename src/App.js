@@ -71,6 +71,33 @@ const rectData = [{
   id: 'rect1'
 }]
 
+const moreShapes = [
+  {
+    id: 1,
+    x: 150,
+    y: 50,
+    descendents: [2, 3]
+  },
+  {
+    id: 2,
+    x: 250,
+    y: 150,
+    descendents: [4]
+  },
+  {
+    id: 3,
+    x: 350,
+    y: 150,
+    descendents: [4]
+  },
+  {
+    id: 4,
+    x: 350,
+    y: 250,
+    descendents: []
+  },
+]
+
 const App = () => {
 
   const [c1, setC1] = React.useState([50, 50])
@@ -163,7 +190,10 @@ const App = () => {
 		text='yo!'
 	      />
             </Group>
-	    {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
+           {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
+           {moreShapes.map((shape) => <Circle width={15} height={15} fill='orange' x={shape.x} y={shape.y} /> )}
+		  {/* this needs to be a nested map */}
+
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
