@@ -73,7 +73,7 @@ const rectData = [{
 
 const moreShapes = [
   {
-    id: 1,
+    id: 1, // not actually in use…
     x: 150,
     y: 50,
     descendents: [2, 3]
@@ -88,13 +88,19 @@ const moreShapes = [
     id: 3,
     x: 350,
     y: 150,
-    descendents: [4]
+    descendents: [4, 5]
   },
   {
     id: 4,
     x: 350,
     y: 250,
     descendents: []
+  },
+  {
+    id: 5,
+    x: 250,
+    y: 200,
+    descendents: [1]
   },
 ]
 
