@@ -191,7 +191,16 @@ const App = () => {
 	      />
             </Group>
            {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
-           {moreShapes.map((shape) => <Circle width={15} height={15} fill='orange' x={shape.x} y={shape.y} /> )}
+           {moreShapes.map((shape, i) => {return(
+		   <React.Fragment>
+		   <Circle width={15} height={15} fill='orange' x={shape.x} y={shape.y} /> 
+			   {shape.descendents.map((descendent) => {return(
+			     <Arrow stroke='orange' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='orange' />
+			   )
+			   })}
+		   </React.Fragment>
+			   )}
+		  )}
 		  {/* this needs to be a nested map */}
 
 	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
