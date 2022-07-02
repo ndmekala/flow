@@ -125,6 +125,28 @@ const App = () => {
     }
   }
 
+  React.useEffect(() => {
+    const parseDAG = () => {
+      let allShapes = []
+      moreShapes.forEach((shape) => {
+        allShapes.push(shape.id)
+      })
+      let nonOrphans = []
+      moreShapes.forEach((shape) => {
+        shape.descendents.forEach((descendent) => {
+          if (!nonOrphans.includes(descendent)) {nonOrphans.push(descendent)}
+        })
+      })
+      let orphans = []
+      allShapes.forEach((shape) => {
+        if (!nonOrphans.includes(shape)) {orphans.push(shape)}
+      })
+      console.log(orphans)
+
+    }
+    parseDAG()
+  });
+
   const handleDrop = (e) => {
 
     if (e.target.x() < 400) {
