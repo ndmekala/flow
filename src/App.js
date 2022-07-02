@@ -26,36 +26,36 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
         draggable
         onDragEnd={(e) => {
           onChange({
-	    ...shapeProps,
-	    x: e.target.x(),
-	    y: e.target.y(),
-	  })
+            ...shapeProps,
+            x: e.target.x(),
+            y: e.target.y(),
+          })
         }}
         onTransformerEnd={(e) => {
           const node = shapeRef.current;
-	  const scaleX = node.scaleX();
-	  const scaleY = node.scaleY();
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
           node.scaleX(1);
-	  node.scaleY(1);
-	  onChange({
+          node.scaleY(1);
+          onChange({
             ...shapeProps,
-	    x: node.x(),
-	    y: node.y(),
-	    width: Math.max(5, node.width() * scaleX),
-	    height: Math.max(node.height() * scaleY),
-	  });
-	}}
+            x: node.x(),
+            y: node.y(),
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(node.height() * scaleY),
+          });
+        }}
       />
       {isSelected && (
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
-	    if(newBox.width < 5 || newBox.height < 5) {
-	      return oldBox
-	    }
-	    return newBox;
-	  }}
-	/>
+            if(newBox.width < 5 || newBox.height < 5) {
+              return oldBox
+            }
+            return newBox;
+          }}
+        />
       )}
     </React.Fragment>
   )
@@ -128,7 +128,7 @@ const App = () => {
       let stateCopy = cirkows.slice()
       stateCopy.push([e.target.x(), e.target.y()])
       setCirkows(stateCopy)
-      }
+    }
 
   }
 
@@ -148,76 +148,76 @@ const App = () => {
 
   }
 
-    return (
+  return (
     <div className="App">
       <header className="App-header">
         <p>Hi there <span role="img" aria-label="upside-down smiley face">🙃</span></p>
         <Stage onMouseDown={checkDeselect} onTouchStart={checkDeselect} width={500} height={500} style={{border: '2px solid deeppink'}}>
           <Layer>
-	    <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
-	  </Layer>
+            <Circle radius={15} fill='deeppink' x={420} y={420} draggable={true} onDragEnd={(e) => {handleDrop(e)}} />
+          </Layer>
           <Layer>
-		  <Html divProps={{style:{position: 'relative', top: 400, left: 400}}}>
+            <Html divProps={{style:{position: 'relative', top: 400, left: 400}}}>
 
-	      <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
-			 
-		</Html>
-		  {rectangles.map((rect, i) => {
-	      return(
-              <Rectangle
-	        key={i}
-		shapeProps={rect}
-		isSelected={rect.id === selectedID}
-		onSelect={() => {setSelectedID(rect.id)}}
-		onChange={(newAttrs) => {
-	          const rects = rectangles.slice();
-		  rects[i] = newAttrs
-		 setRectangles(rects) 
-		}}
-		/>)
-	    }) }
+              <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
+
+            </Html>
+            {rectangles.map((rect, i) => {
+              return(
+                <Rectangle
+                  key={i}
+                  shapeProps={rect}
+                  isSelected={rect.id === selectedID}
+                  onSelect={() => {setSelectedID(rect.id)}}
+                  onChange={(newAttrs) => {
+                    const rects = rectangles.slice();
+                    rects[i] = newAttrs
+                    setRectangles(rects) 
+                  }}
+                />)
+            }) }
 
             <Group
               draggable={true}>
               <Ellipse
                 radius={{
                   x: 50,
-		  y: 20,
-		}}
-		x={220}
-		y={20}
-		fill='deeppink'
-	      />
-	      <Text
-		x={220}
-		y={20}
-		fill='black'
-		fontFamily='Courier New'
-		text='yo!'
-	      />
+                  y: 20,
+                }}
+                x={220}
+                y={20}
+                fill='deeppink'
+              />
+              <Text
+                x={220}
+                y={20}
+                fill='black'
+                fontFamily='Courier New'
+                text='yo!'
+              />
             </Group>
-           {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
-           {moreShapes.map((shape, i) => {return(
-		   <React.Fragment>
-		   <Circle width={15} height={15} fill='orange' x={shape.x} y={shape.y} /> 
-			   {shape.descendents.map((descendent) => {return(
-			     <Arrow stroke='orange' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='orange' />
-			   )
-			   })}
-		   </React.Fragment>
-			   )}
-		  )}
-		  {/* this needs to be a nested map */}
+            {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
+            {moreShapes.map((shape, i) => {return(
+              <React.Fragment>
+                <Circle width={15} height={15} fill='orange' x={shape.x} y={shape.y} /> 
+                {shape.descendents.map((descendent) => {return(
+                  <Arrow stroke='orange' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='orange' />
+                )
+                })}
+              </React.Fragment>
+            )}
+            )}
+            {/* this needs to be a nested map */}
 
-	    <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
-	    <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
-	    <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
-             <Arrow tension={0.5} strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
-             <Arrow strokeWidth={5} stroke='cadetblue' points={[170, 170, 200+29*parseFloat(value), 200-29*parseFloat(value), 230, 230]} tension={0.5} />
-	    <Line stroke='deeppink' points={[400,0,400,500]} />
+            <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
+            <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
+            <Circle radius={20} fill='cadetblue' draggable={true} x={c3[0]} y={c3[1]} onDragMove={(e) => {setC3([e.target.x(), e.target.y()])}}/>
+            <Arrow tension={0.5} strokeWidth={5} shadowColor='white' shadowBlur={10} shadowOpacity={0.5} shadowEnabled={shadow} onMouseDown={() => {shadow ? setShadow(false) : setShadow(true)}} stroke='cadetblue' points={smartArrowPoints(c1, c2, 25)} />
+            <Arrow strokeWidth={5} stroke='cadetblue' points={[170, 170, 200+29*parseFloat(value), 200-29*parseFloat(value), 230, 230]} tension={0.5} />
+            <Line stroke='deeppink' points={[400,0,400,500]} />
           </Layer>
         </Stage>
-     </header>
+      </header>
     </div>
   );
 
