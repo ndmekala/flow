@@ -114,7 +114,7 @@ const App = () => {
   const [selectedID, setSelectedID] = React.useState(null)
   const [shadow, setShadow] = React.useState(false)
   const [value, setValue] = React.useState(0)
-  const [arrowDrawMode, setArrowDrawMode] = React.useState(false)
+  const [arrowDrawMode, setArrowDrawMode] = React.useState(true)
   const [arrowDrawIdStash, setArrowDrawIdStash] = React.useState(null)
   const [moreShapes, setMoreShapes] = React.useState(moreShapesData)
 
@@ -127,6 +127,7 @@ const App = () => {
 
   React.useEffect(() => {
     const parseDAG = () => {
+      console.log('----- PARSE DAG START ------')
       let allShapes = []
       let nonOrphans = []
       let arrows = []
@@ -141,31 +142,35 @@ const App = () => {
       allShapes.forEach((shape) => {
         if (!nonOrphans.includes(shape)) {orphans.push(shape)}
       })
-      console.log(orphans)
       while (orphans.length) {
         let relationships = arrows.filter((arrow) => {
           return arrow[0] === orphans[0]
         })
-        console.log(relationships)
+        console.log('------ WHILE LOOP START -------')
+        console.log(`arrows: ${JSON.stringify(arrows)}`)
+        console.log(`orphans: ${JSON.stringify(orphans)}`)
+        console.log(`relationships: ${JSON.stringify(relationships)}`)
         relationships.forEach((relationship) => {
           // remove from arrows array
-          let currentIndex = arrows.findIndex((arrow) => {
-            return arrow[0] === orphans[0] && arrow[1] === relationship[1]
-          })
-          arrows.splice(currentIndex,1)
-          console.table(arrows)
+          arrows.shift()
+          console.log('------ ARROWS W ARROW EXCISED -----')
+          console.log(`relationship: ${JSON.stringify(relationship)}`)
+          console.log(`arrows: ${JSON.stringify(arrows)}`)
           // scan to see if removal of this edge makes the child an orphan
           let found = false
           for (let i=0; i < arrows.length; i++) {
+            // do any children remaining in arrow array equal the child in the relationship in question
             if (arrows[i][1] === relationship[1]) {
               found = true
+              console.log('found')
               break
             } else {
+              console.log('not found')
               found = false
               continue
             }
           }
-          if (found) {
+          if (!found && !orphans.includes(relationship[1])) {
             orphans.push(relationship[1])
           }
         })
@@ -285,7 +290,7 @@ const App = () => {
               <React.Fragment>
                 <Circle id={shape.id.toString()} width={15} onClick={(e) => {if(arrowDrawMode) {handleCircleSelect(e)}}} height={15} fill='orange' x={shape.x} y={shape.y} /> 
                 {shape.descendents.map((descendent) => {return(
-                  <Arrow stroke='orange' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='orange' />
+                  <Arrow stroke='deeppink' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='deeppink' />
                 )
                 })}
               </React.Fragment>
