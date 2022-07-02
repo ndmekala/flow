@@ -128,13 +128,13 @@ const App = () => {
   React.useEffect(() => {
     const parseDAG = () => {
       let allShapes = []
+      let nonOrphans = []
+      let arrows = []
       moreShapes.forEach((shape) => {
         allShapes.push(shape.id)
-      })
-      let nonOrphans = []
-      moreShapes.forEach((shape) => {
         shape.descendents.forEach((descendent) => {
           if (!nonOrphans.includes(descendent)) {nonOrphans.push(descendent)}
+          arrows.push([shape.id, descendent])
         })
       })
       let orphans = []
@@ -142,6 +142,40 @@ const App = () => {
         if (!nonOrphans.includes(shape)) {orphans.push(shape)}
       })
       console.log(orphans)
+      while (orphans.length) {
+        let relationships = arrows.filter((arrow) => {
+          return arrow[0] === orphans[0]
+        })
+        console.log(relationships)
+        relationships.forEach((relationship) => {
+          // remove from arrows array
+          let currentIndex = arrows.findIndex((arrow) => {
+            return arrow[0] === orphans[0] && arrow[1] === relationship[1]
+          })
+          arrows.splice(currentIndex,1)
+          console.table(arrows)
+          // scan to see if removal of this edge makes the child an orphan
+          let found = false
+          for (let i=0; i < arrows.length; i++) {
+            if (arrows[i][1] === relationship[1]) {
+              found = true
+              break
+            } else {
+              found = false
+              continue
+            }
+          }
+          if (found) {
+            orphans.push(relationship[1])
+          }
+        })
+        orphans.shift()
+      }
+      if (arrows.length) {
+        console.log('CYCLIC!')
+      } else {
+        console.log('ACYCLIC!')
+      }
 
     }
     parseDAG()
