@@ -144,7 +144,6 @@ const App = () => {
         return shape.id === parseFloat(arrowDrawIdStash)
       })
       if (!moreShapes[fromDataIndex].descendents.includes(parseFloat(e.target.attrs.id))) {
-        console.log('else if case ran')
         let toDataIndex = moreShapes.findIndex(shape => {
           return shape.id === parseFloat(e.target.attrs.id)
         })
@@ -228,7 +227,7 @@ const App = () => {
             {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
             {moreShapes.map((shape, i) => {return(
               <React.Fragment>
-                <Circle id={shape.id.toString()} width={15} onClick={(e) => {handleCircleSelect(e)}} height={15} fill='orange' x={shape.x} y={shape.y} /> 
+                <Circle id={shape.id.toString()} width={15} onClick={(e) => {if(arrowDrawMode) {handleCircleSelect(e)}}} height={15} fill='orange' x={shape.x} y={shape.y} /> 
                 {shape.descendents.map((descendent) => {return(
                   <Arrow stroke='orange' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='orange' />
                 )
