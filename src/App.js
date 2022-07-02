@@ -71,24 +71,24 @@ const rectData = [{
   id: 'rect1'
 }]
 
-const moreShapes = [
+const moreShapesData = [
   {
     id: 1, // not actually in use…
     x: 150,
     y: 50,
-    descendents: [2, 3]
+    descendents: []
   },
   {
     id: 2,
     x: 250,
     y: 150,
-    descendents: [4]
+    descendents: []
   },
   {
     id: 3,
     x: 350,
     y: 150,
-    descendents: [4, 5]
+    descendents: []
   },
   {
     id: 4,
@@ -100,7 +100,7 @@ const moreShapes = [
     id: 5,
     x: 250,
     y: 200,
-    descendents: [1]
+    descendents: []
   },
 ]
 
@@ -114,6 +114,9 @@ const App = () => {
   const [selectedID, setSelectedID] = React.useState(null)
   const [shadow, setShadow] = React.useState(false)
   const [value, setValue] = React.useState(0)
+  const [arrowDrawMode, setArrowDrawMode] = React.useState(false)
+  const [arrowDrawIdStash, setArrowDrawIdStash] = React.useState(null)
+  const [moreShapes, setMoreShapes] = React.useState(moreShapesData)
 
   const checkDeselect = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -130,6 +133,34 @@ const App = () => {
       setCirkows(stateCopy)
     }
 
+  }
+
+  const handleCircleSelect = (e) => {
+
+    if (arrowDrawIdStash === null) {
+      setArrowDrawIdStash(e.target.attrs.id)
+    } else if (e.target.attrs.id !== arrowDrawIdStash) {
+      let fromDataIndex = moreShapes.findIndex(shape => {
+        return shape.id === parseFloat(arrowDrawIdStash)
+      })
+      if (!moreShapes[fromDataIndex].descendents.includes(parseFloat(e.target.attrs.id))) {
+        console.log('else if case ran')
+        let toDataIndex = moreShapes.findIndex(shape => {
+          return shape.id === parseFloat(e.target.attrs.id)
+        })
+        let fromData = moreShapes[fromDataIndex]
+        fromData.descendents.push(moreShapes[toDataIndex].id)
+        let stateCopy = moreShapes.slice()
+        stateCopy[fromDataIndex] = fromData
+        setMoreShapes(stateCopy)
+        setArrowDrawIdStash(null)
+      }
+   }
+  }
+
+  const handleArrowDrawModeToggle = () => {
+    let stateCopy = arrowDrawMode
+    setArrowDrawMode(!stateCopy)
   }
 
   const handleSlider = (e) => {
@@ -158,9 +189,8 @@ const App = () => {
           </Layer>
           <Layer>
             <Html divProps={{style:{position: 'relative', top: 400, left: 400}}}>
-
               <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
-
+              <button onClick={() => {handleArrowDrawModeToggle()}}>Arrow Draw Mode: {arrowDrawMode.toString()}</button>
             </Html>
             {rectangles.map((rect, i) => {
               return(
@@ -176,7 +206,6 @@ const App = () => {
                   }}
                 />)
             }) }
-
             <Group
               draggable={true}>
               <Ellipse
@@ -199,7 +228,7 @@ const App = () => {
             {cirkows.map((cirkow) => <Circle width={15} height={15} fill='deeppink' x={cirkow[0]} y={cirkow[1]} /> )}
             {moreShapes.map((shape, i) => {return(
               <React.Fragment>
-                <Circle width={15} height={15} fill='orange' x={shape.x} y={shape.y} /> 
+                <Circle id={shape.id.toString()} width={15} onClick={(e) => {handleCircleSelect(e)}} height={15} fill='orange' x={shape.x} y={shape.y} /> 
                 {shape.descendents.map((descendent) => {return(
                   <Arrow stroke='orange' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='orange' />
                 )
@@ -207,7 +236,6 @@ const App = () => {
               </React.Fragment>
             )}
             )}
-            {/* this needs to be a nested map */}
 
             <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
             <Circle radius={20} fill='cadetblue' draggable={true} x={c2[0]} y={c2[1]} onDragMove={(e) => {setC2([e.target.x(), e.target.y()])}}/>
