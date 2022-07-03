@@ -16,6 +16,8 @@ const Node = ({ shapeProps, isSelected, onSelect, onChange }) => {
   return (
     <React.Fragment>
       {/* how will draggable work w group / transformer??*/}
+      {/* also: how will draggable work w ARROW */}
+      {/* i don thtin kdraggable is the ticket. circle only. no text or other.*/}
       <Group>
         <Circle
           onClick={onSelect}
