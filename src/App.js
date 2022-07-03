@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+//import { Node } from './Node.js';
 import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode, Transformer, Rect} from 'react-konva';
 import { Html } from 'react-konva-utils';
 
