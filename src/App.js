@@ -81,7 +81,7 @@ const Node = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
 }
 
 const nodeData = [{
-  x: 400,
+  x: 250,
   y: 400,
   radius: 50,
   fill: 'cadetblue',
