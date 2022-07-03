@@ -154,7 +154,11 @@ const App = () => {
         //console.log(`relationships: ${JSON.stringify(relationships)}`)
         relationships.forEach((relationship) => {
           // remove from arrows array
-          arrows.shift()
+          for (let i = 0; i < arrows.length; i++) {
+            if (arrows[i] === relationship) {
+              arrows.splice(i, 1)
+            }
+          }
           //console.log('------ ARROWS W ARROW EXCISED -----')
           //console.log(`relationship: ${JSON.stringify(relationship)}`)
           //console.log(`arrows: ${JSON.stringify(arrows)}`)
@@ -164,6 +168,7 @@ const App = () => {
             // do any children remaining in arrow array equal the child in the relationship in question
             //console.log(`arrows[i][1]: ${JSON.stringify(arrows[i][1])}`)
             //console.log(`relationship[1]: ${relationship[1]}`)
+            // weird behavior when relationship is in arrow array… this shouldnt happen - shows that shift insufficient
             if (arrows[i][1] === relationship[1]) {
               found = true
               //console.log('found')
