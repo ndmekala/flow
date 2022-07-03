@@ -4,7 +4,9 @@ import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode,
 import { Html } from 'react-konva-utils';
 
 useStrictMode(true)
-
+// MAKE IT SO STATE ONLY UPDATES ON DRAG END!!! (this will help undo/redo)
+// or add a ~layer~ between state and dragging…
+// it could be isDragging ? x = yadayada : x = state value
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
@@ -135,6 +137,8 @@ const CircleComp = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
         text='yo!'
       />
       </Group>
+      {/* I say its open for debate whether to use group or have text x y update via state */}
+      <Arrow stroke='chartreuse' fill='chartreuse' points={[0,0,500,500]}/>
     </React.Fragment>
   )
 
