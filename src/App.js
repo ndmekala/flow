@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-//import { Node } from './Node.js';
 import { Stage, Ellipse, Group, Arrow, Line, Layer, Circle, Text, useStrictMode, Transformer, Rect} from 'react-konva';
 import { Html } from 'react-konva-utils';
 
@@ -72,6 +71,84 @@ const rectData = [{
   id: 'rect1'
 }]
 
+const CircleComp = ({ shapeProps, isSelected, onSelect, onChange }) =>  {
+  const shapeRef = React.useRef();
+  const trRef = React.useRef();
+
+  React.useEffect(() => {
+    if (isSelected) {
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  return (
+    <React.Fragment>
+      <Group draggable>
+      <Circle
+        onClick={onSelect}
+        onTap={onSelect}
+        ref={shapeRef}
+        {...shapeProps}
+        onDragEnd={(e) => {
+          onChange({
+            ...shapeProps,
+            x: e.target.x(),
+            y: e.target.y(),
+          })
+        }}
+        onTransformerEnd={(e) => {
+          const node = shapeRef.current;
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+          node.scaleX(1);
+          node.scaleY(1);
+          onChange({
+            ...shapeProps,
+            x: node.x(),
+            y: node.y(),
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(node.height() * scaleY),
+          });
+        }}
+      />
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          rotateEnabled={false}
+          centeredScaling={true}
+          keepRatio={true}
+          enabledAnchors={['top-right', 'bottom-right', 'top-left', 'bottom-left']}
+          boundBoxFunc={(oldBox, newBox) => {
+            if(newBox.width < 5 || newBox.height < 5) {
+              return oldBox
+            }
+            return newBox;
+          }}
+        />
+      )}
+      <Text
+        x={400}
+        y={350}
+        fill='white'
+        fontFamily='Courier New'
+        text='yo!'
+      />
+      </Group>
+    </React.Fragment>
+  )
+
+}
+
+const nodeData = [{
+  x: 400,
+  y: 400,
+  radius: 50,
+  fill: 'cadetblue',
+  id: 'node1'
+}]
+
+
 const moreShapesData = [
   {
     id: 1, // not actually in use…
@@ -112,6 +189,7 @@ const App = () => {
   const [c3, setC3] = React.useState([250, 250])
   const [cirkows, setCirkows] = React.useState([])
   const [rectangles, setRectangles] = React.useState(rectData)
+  const [nodes, setNodes] = React.useState(nodeData)
   const [selectedID, setSelectedID] = React.useState(null)
   const [shadow, setShadow] = React.useState(false)
   const [value, setValue] = React.useState(0)
@@ -262,6 +340,21 @@ const App = () => {
               <input type="range" min="-10" max="10" value={value} onChange={(e) => {handleSlider(e)}}></input>
               <button onClick={() => {handleArrowDrawModeToggle()}}>Arrow Draw Mode: {arrowDrawMode.toString()}</button>
             </Html>
+            {nodes.map((node, i) => {
+              return(
+                <CircleComp
+                  key={i}
+                  shapeProps={node}
+                  isSelected={node.id === selectedID}
+                  onSelect={() => {setSelectedID(node.id)}}
+                  onChange={(newAttrs) => {
+                    const stateCopy = nodes.slice();
+                    stateCopy[i] = newAttrs;
+                    setNodes(stateCopy)
+                  }}
+                />
+              )
+            })}
             {rectangles.map((rect, i) => {
               return(
                 <Rectangle
@@ -275,7 +368,7 @@ const App = () => {
                     setRectangles(rects) 
                   }}
                 />)
-            }) }
+            })}
             <Group
               draggable={true}>
               <Ellipse
