@@ -125,9 +125,11 @@ const App = () => {
     }
   }
 
+  // NOTE ^^ there needs to be a deslect for when you are adding arrows
+
   React.useEffect(() => {
     const parseDAG = () => {
-      console.log('----- PARSE DAG START ------')
+      //console.log('----- PARSE DAG START ------')
       let allShapes = []
       let nonOrphans = []
       let arrows = []
@@ -146,26 +148,28 @@ const App = () => {
         let relationships = arrows.filter((arrow) => {
           return arrow[0] === orphans[0]
         })
-        console.log('------ WHILE LOOP START -------')
-        console.log(`arrows: ${JSON.stringify(arrows)}`)
-        console.log(`orphans: ${JSON.stringify(orphans)}`)
-        console.log(`relationships: ${JSON.stringify(relationships)}`)
+        //console.log('------ WHILE LOOP START -------')
+        //console.log(`arrows: ${JSON.stringify(arrows)}`)
+        //console.log(`orphans: ${JSON.stringify(orphans)}`)
+        //console.log(`relationships: ${JSON.stringify(relationships)}`)
         relationships.forEach((relationship) => {
           // remove from arrows array
           arrows.shift()
-          console.log('------ ARROWS W ARROW EXCISED -----')
-          console.log(`relationship: ${JSON.stringify(relationship)}`)
-          console.log(`arrows: ${JSON.stringify(arrows)}`)
+          //console.log('------ ARROWS W ARROW EXCISED -----')
+          //console.log(`relationship: ${JSON.stringify(relationship)}`)
+          //console.log(`arrows: ${JSON.stringify(arrows)}`)
           // scan to see if removal of this edge makes the child an orphan
           let found = false
           for (let i=0; i < arrows.length; i++) {
             // do any children remaining in arrow array equal the child in the relationship in question
+            //console.log(`arrows[i][1]: ${JSON.stringify(arrows[i][1])}`)
+            //console.log(`relationship[1]: ${relationship[1]}`)
             if (arrows[i][1] === relationship[1]) {
               found = true
-              console.log('found')
+              //console.log('found')
               break
             } else {
-              console.log('not found')
+              //console.log('not found')
               found = false
               continue
             }
