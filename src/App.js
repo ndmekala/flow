@@ -90,12 +90,20 @@ const nodeData = [{
     id: 'node2',
     arrowCoeff: 0.5,
   }]
+},{
+  x: 150,
+  y: 200,
+  radius: 10,
+  fill: 'pink',
+  id: 'node2',
+  descendents: [{}],
 }]
 
-
+// keeping around because dag validator works through this…
+// also i deleted old circles that pointed to functions (handlecircle select i think)on click…
 const moreShapesData = [
   {
-    id: 1, // not actually in use…?
+    id: 1,
     x: 150,
     y: 50,
     descendents: []
@@ -290,33 +298,35 @@ const App = () => {
               <button onClick={() => {handleArrowDrawModeToggle()}}>Arrow Draw Mode: {arrowDrawMode.toString()}</button>
             </Html>
             {/* mapping data */}
+            {/* dont forget to add validation w arrow mode etc */}
             {nodes.map((node, i) => {
               return(
-                <Node
-                  key={i}
-                  shapeProps={node}
-                  isSelected={node.id === selectedID}
-                  onSelect={() => {setSelectedID(node.id)}}
-                  onChange={(newAttrs) => {
-                    const stateCopy = nodes.slice();
-                    stateCopy[i] = newAttrs;
-                    setNodes(stateCopy)
-                  }}
-                />
+                <React.Fragment>
+                  <Node
+                    key={i}
+                    shapeProps={node}
+                    isSelected={node.id === selectedID}
+                    onSelect={() => {setSelectedID(node.id)}}
+                    onChange={(newAttrs) => {
+                      const stateCopy = nodes.slice();
+                      stateCopy[i] = newAttrs;
+                      setNodes(stateCopy)
+                    }}
+                  />
+                  {node.descendents.map((descendent) => {
+                    const returnDescendent = (descendentID) => {
+                      return nodes.find(element => element.id === descendentID)
+                    }
+                    console.log(returnDescendent(descendent.id))
+                    if (returnDescendent(descendent.id)) {
+                      return(
+                        <Arrow stroke='mediumslateblue' points={[node.x, node.y, returnDescendent(descendent.id).x, returnDescendent(descendent.id).y]}/>
+                      )
+                    }
+                  })}
+                </React.Fragment>
               )
             })}
-
-            {/* demonstrating autocreation of arrows */}
-            {moreShapes.map((shape, i) => {return(
-              <React.Fragment>
-                <Circle id={shape.id.toString()} width={15} onClick={(e) => {if(arrowDrawMode) {handleCircleSelect(e)}}} height={15} fill='orange' x={shape.x} y={shape.y} /> 
-                {shape.descendents.map((descendent) => {return(
-                  <Arrow stroke='deeppink' points={[shape.x,shape.y,moreShapes[descendent-1].x,moreShapes[descendent-1].y]} strokeWidth={2} fill='deeppink' />
-                )
-                })}
-              </React.Fragment>
-            )}
-            )}
 
             {/* illustrating arrow select, smart arrows, arrow tension/ediitng*/}
             <Circle radius={20} fill='cadetblue' draggable={true} x={c1[0]} y={c1[1]} onDragMove={(e) => {setC1([e.target.x(), e.target.y()])}}/>
