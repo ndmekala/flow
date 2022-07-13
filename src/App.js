@@ -234,7 +234,8 @@ const App = () => {
         y: e.target.y(),
         radius: 10,
         fill: 'chartreuse',
-        id: nodes.length+1
+        id: nodes.length+1,
+        descendents: []
       })
       setNodes(stateCopy)
     }
@@ -243,24 +244,26 @@ const App = () => {
 
   const handleCircleSelect = (e) => {
 
-    if (arrowDrawIdStash === null) {
-      setArrowDrawIdStash(e.target.attrs.id)
-    } else if (e.target.attrs.id !== arrowDrawIdStash) {
-      let fromDataIndex = moreShapes.findIndex(shape => {
-        return shape.id === parseFloat(arrowDrawIdStash)
-      })
-      if (!moreShapes[fromDataIndex].descendents.includes(parseFloat(e.target.attrs.id))) {
-        let toDataIndex = moreShapes.findIndex(shape => {
-          return shape.id === parseFloat(e.target.attrs.id)
-        })
-        let fromData = moreShapes[fromDataIndex]
-        fromData.descendents.push(moreShapes[toDataIndex].id)
-        let stateCopy = moreShapes.slice()
-        stateCopy[fromDataIndex] = fromData
-        setMoreShapes(stateCopy)
-        setArrowDrawIdStash(null)
-      }
-    }
+    console.log('it works!')
+
+//    if (arrowDrawIdStash === null) {
+//      setArrowDrawIdStash(e.target.attrs.id)
+//    } else if (e.target.attrs.id !== arrowDrawIdStash) {
+//      let fromDataIndex = moreShapes.findIndex(shape => {
+//        return shape.id === parseFloat(arrowDrawIdStash)
+//      })
+//      if (!moreShapes[fromDataIndex].descendents.includes(parseFloat(e.target.attrs.id))) {
+//        let toDataIndex = moreShapes.findIndex(shape => {
+//          return shape.id === parseFloat(e.target.attrs.id)
+//        })
+//        let fromData = moreShapes[fromDataIndex]
+//        fromData.descendents.push(moreShapes[toDataIndex].id)
+//        let stateCopy = moreShapes.slice()
+//        stateCopy[fromDataIndex] = fromData
+//        setMoreShapes(stateCopy)
+//        setArrowDrawIdStash(null)
+//      }
+//    }
   }
 
   const handleArrowDrawModeToggle = () => {
@@ -306,7 +309,7 @@ const App = () => {
                     key={i}
                     shapeProps={node}
                     isSelected={node.id === selectedID}
-                    onSelect={() => {setSelectedID(node.id)}}
+                    onSelect={() => {arrowDrawMode ? handleCircleSelect() : setSelectedID(node.id)}}
                     onChange={(newAttrs) => {
                       const stateCopy = nodes.slice();
                       stateCopy[i] = newAttrs;
